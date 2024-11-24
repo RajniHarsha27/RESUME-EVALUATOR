@@ -61,20 +61,51 @@ def main():
         # Generate AI Responses
         with st.spinner("Analyzing..."):
             match_prompt = f"""
-                You are an ATS expert. Compare the following resume and job description and make it short and precise not more than 300 words. 
-                Assign a percentage match based on skills and qualifications.
+                You are an ATS (Applicant Tracking System) expert. Your task is to evaluate the following resume against the provided job description.  
 
-                Job Description:
-                {job_description}
+                Specifically:  
+                    1. Assess the alignment of skills, qualifications, and experiences mentioned in the resume with those required in the job description.  
+                    2. Assign a percentage match based on the relevance and completeness of the candidate's profile compared to the job requirements.  
+                    3. Mandatory or highly emphasized skills in the job description should carry more weight in the calculation.  
 
-                Resume:
-                {resume_text}
-            """
+                Ensure the response is short, clear, and no more than 300 words. Provide the output strictly in the following format:  
+
+                **Output Format**:  
+                **Match Percentage**: Calculated_percentage%  
+
+                **Breakdown of Evaluation**:  
+                1. **Skills Match**:  
+                   - Total skills in job description: number 
+
+                2. **Experience Match**:  
+                   
+
+                3. **Qualifications Match**:  
+                    
+
+                4. **Overall Match Evaluation**:  
+                   
+                    Job Description:  
+                        {job_description}  
+
+                        Resume:  
+                            {resume_text}
+                    """
+
             match_percentage = get_gemini_response(match_prompt)
 
             keywords_prompt = f"""
                 Identify missing skills or keywords in this resume based on the job description and make it short and precise not more than 300 words.
-
+                **Output Format**:  
+                    1. **Missing Skills**:  
+                        -
+                        -
+                    2.  **Missing Qualifications**:  
+                        -
+                        -
+                    3. **Missing Keywords**:  
+                        -
+                        -
                 Job Description:
                 {job_description}
 
@@ -84,8 +115,7 @@ def main():
             missing_keywords = get_gemini_response(keywords_prompt)
 
         # Display Results
-        st.subheader(f"Match Percentage: ")
-        st.markdown(f"###{match_percentage}%**")
+        st.subheader(match_percentage.strip())
         st.markdown("### Missing Keywords:")
         st.write(missing_keywords)
 
