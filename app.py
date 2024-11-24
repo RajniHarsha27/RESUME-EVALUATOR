@@ -8,7 +8,7 @@ import json
 load_dotenv() ## load all our environment variables
 
 # Configure Google Gemini with API key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key="AIzaSyAEP3zsXhaWbPceLo2y6MHp-0B2GEkymoo")
 
 # Function to extract text from uploaded PDF using pdfplumber
 def extract_text_from_pdf(uploaded_file):
@@ -82,9 +82,6 @@ if submit_button:
             st.subheader(f"Match Percentage: {match_percentage.strip()}")
             st.write(f"Missing Keywords: {missing_keywords.strip()}")
             
-            st.write("Suggestions for Improvement:")
-            st.write("1. Ensure that all skills mentioned in the job description are present.")
-            st.write("2. Include specific technical terms and technologies mentioned in the JD.")
-            st.write("3. Optimize the resume structure by clearly highlighting relevant skills and experiences.")
+        
     else:
         st.write("Please upload a resume and provide a job description.")
