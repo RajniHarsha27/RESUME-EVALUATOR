@@ -4,6 +4,7 @@ import streamlit as st
 import pdfplumber  # Changed to pdfplumber
 from dotenv import load_dotenv
 import json
+from google.generativeai.types import HarmBlockThreshold  # Import HarmBlockThreshold explicitly
 
 load_dotenv() ## load all our environment variables
 
@@ -21,14 +22,17 @@ def extract_text_from_pdf(uploaded_file):
 # Function to get Gemini response and match percentage
 def get_gemini_response(job_description, resume_text, prompt):
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content([job_description, resume_text, prompt])
+    safety_settings = [{"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE}]
+   # Apply safety settings and candidate_count for better consistency
+      
+    response = model.generate_content([job_description, resume_text, prompt] ,generation_config={"candidate_count": 1},safety_settings=safety_settings )
     return response.text
 
 # Function to calculate match percentage using semantic analysis
 def calculate_match_percentage(job_description, resume_text):
     prompt = f"""
     You are an experienced ATS (Applicant Tracking System) expert. Your task is to evaluate the following resume and job description.
-    Calculate the percentage match between the two, considering skills, experiences, and qualifications.
+    Calculate the percentage match between the two, considering skills, experiences, and qualifications.assign weights to the skills based on their importance as stated in the job description (Mandatory skills get higher weight)
 
     Job Description:
     {job_description}
@@ -51,7 +55,7 @@ def get_missing_keywords(job_description, resume_text):
     Resume:
     {resume_text}
 
-    Provide a list of missing keywords and suggestions for improvement.
+    Provide a list of missing keywords.
     """
     return get_gemini_response(job_description, resume_text, prompt)
 
@@ -82,6 +86,5 @@ if submit_button:
             st.subheader(f"Match Percentage: {match_percentage.strip()}")
             st.write(f"Missing Keywords: {missing_keywords.strip()}")
             
-        
     else:
         st.write("Please upload a resume and provide a job description.")
