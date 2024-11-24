@@ -83,7 +83,8 @@ if submit_button:
             missing_keywords = get_missing_keywords(input_text, resume_text)
 
             # Display results
-            st.subheader(f"Match Percentage: {match_percentage.strip()}")
+            st.subheader(f"Match Percentage:")
+            st.subheader(match_percentage.strip())
             st.write(f"Missing Keywords: {missing_keywords.strip()}")
             
     else:
