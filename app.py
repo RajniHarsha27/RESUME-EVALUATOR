@@ -22,10 +22,10 @@ def extract_text_from_pdf(uploaded_file):
 # Function to get Gemini response and match percentage
 def get_gemini_response(job_description, resume_text, prompt):
     model = genai.GenerativeModel("gemini-1.5-flash")
-    safety_settings = [{"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE}]
+
    # Apply safety settings and candidate_count for better consistency
       
-    response = model.generate_content([job_description, resume_text, prompt] ,generation_config={"candidate_count": 1},safety_settings=safety_settings )
+    response = model.generate_content([job_description, resume_text, prompt] )
     return response.text
 
 # Function to calculate match percentage using semantic analysis
