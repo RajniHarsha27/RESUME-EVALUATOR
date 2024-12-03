@@ -9,7 +9,7 @@ import google.generativeai as genai
 load_dotenv()
 
 # Configure Google Gemini with API key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key="AIzaSyCKzbgEY93vkwWfk_oW8k5jCpGjC9-4T9s")
 
 # Function to extract text from uploaded PDF
 def extract_text_from_pdf(uploaded_file):
